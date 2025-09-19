@@ -1,14 +1,18 @@
-JH-RIT-DSAI Infrastructure
+**JH-RIT-DSAI Infrastructure**
+
 Terraform configuration for OpenAI, Azure ML, and storage infrastructure with private networking.
 
-Architecture
+**Architecture**
+
 JH-RIT-DSAI-PROD-RG - Additional storage
 JH-RIT-DSAI-OAI-RG - OpenAI services
 JH-RIT-DSAI-AML-RG - Azure ML workspace
-Resources
+
+**Resources**
 OpenAI Cognitive Services with private endpoint
 Azure ML Workspace (Key Vault, Storage, App Insights)
-Additional Storage Account
+
+**Additional Storage Account**
 Private endpoints for secure networking
 Prerequisites
 Terraform >= 1.3
