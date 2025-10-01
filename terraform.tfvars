@@ -40,11 +40,5 @@ user_AD_group_name = "JH-RIT-DSAI"
 
 # Tags
 tags = {
-  "Owner"            = "RITCloud-team"
-  "Environment"      = "prod"
-  "Project"          = "JH-RIT-DSAI"
-  "IRB"              = "N/A"
-  "Data Sensitivity" = "No PHI"
-  "PI"               = "ritadmin"
-  "JIRA"             = "RIT-2820"
+    "JIRA"             = "RIT-2820"
 }

@@ -120,7 +120,7 @@ module "azureml_workspace" {
   source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azureml-workspace?ref=v0.063"
   
   jira_ticket             = var.jira_ticket
-  application_name        = "dsai-aml"
+  application_name        = var.application_name
   environment             = var.environment
   location                = var.location
   resource_group_name     = var.aml_resource_group_name
