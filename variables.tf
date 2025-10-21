@@ -118,6 +118,7 @@ variable "tags" {
   type        = map(string)
   description = "Resource tags"
 }
+
 # Resource Groups
 variable "aml_resource_group_name" {
   type        = string
@@ -127,6 +128,11 @@ variable "aml_resource_group_name" {
 variable "oai_resource_group_name" {
   type        = string
   description = "Resource group name for OpenAI resources"
+}
+
+variable "aif_resource_group_name" {
+  type        = string
+  description = "Resource group name for AI Foundry resources"
 }
 
 # Additional Storage Account variables

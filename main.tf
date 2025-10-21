@@ -45,9 +45,11 @@ data "azuread_group" "ad_group" {
   display_name = var.user_AD_group_name
 }
 
+data "azurerm_client_config" "current" {}
+
 # OpenAI Module (in OAI RG)
 module "openai" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//OpenAI?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//OpenAI?ref=v0.0.21"
   
   ritjira                      = var.ritjira
   project                      = var.project
@@ -56,9 +58,23 @@ module "openai" {
   oai_virtual_network_subnet   = data.azurerm_subnet.subnet.id
 }
 
+# AI Foundry Module (in AIF RG)
+module "ai_foundry" {
+  source = "git@github.com:JH-RIT/RIT-Azure.git//AIFoundry?ref=v0.0.21"
+
+  ritjira                    = var.ritjira
+  project                    = var.project
+  location                   = var.location
+  aif_resource_group_name    = var.aif_resource_group_name
+  aif_virtual_network_subnet = data.azurerm_subnet.subnet.id
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  
+  tags = var.tags
+}
+
 # Second Storage Account Module (in main RG) - Using StorageAccount module
 module "additional_storage" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//StorageAccount?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//StorageAccount?ref=v0.0.21"
   
   ritjira                    = var.ritjira
   project                    = var.project
@@ -67,11 +83,12 @@ module "additional_storage" {
   st_virtual_network_subnet  = data.azurerm_subnet.subnet.id
   hns                        = var.additional_storage_hns
   access_tier               = var.additional_storage_access_tier
+  tags                      = var.tags
 }
 
 # App Insights Module (in AML RG)
 module "app_insight_workspace" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/app-insight?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/app-insight?ref=v0.0.21"
   
   jira_ticket                        = var.jira_ticket
   application_name                   = var.application_name
@@ -85,7 +102,7 @@ module "app_insight_workspace" {
 
 # Azure Storage Module (in AML RG) - AML's built-in storage
 module "azure_storage" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-storage?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-storage?ref=v0.0.21"
   
   jira_ticket                   = var.jira_ticket
   application_name              = var.application_name
@@ -101,7 +118,7 @@ module "azure_storage" {
 
 # Azure Key Vault Module (in AML RG)
 module "azure_kv" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-kv?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-kv?ref=v0.0.21"
   
   jira_ticket             = var.jira_ticket
   application_name        = var.application_name
@@ -117,10 +134,10 @@ module "azure_kv" {
 
 # Azure ML Workspace Module (in AML RG)
 module "azureml_workspace" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azureml-workspace?ref=v0.063"
+  source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azureml-workspace?ref=v0.0.21"
   
   jira_ticket             = var.jira_ticket
-  application_name        = var.application_name
+  application_name        = "dsai-aml"              
   environment             = var.environment
   location                = var.location
   resource_group_name     = var.aml_resource_group_name
@@ -128,6 +145,9 @@ module "azureml_workspace" {
   create_new_workspace    = var.create_new_workspace
   create_private_endpoint = var.create_private_endpoint
   tags                    = var.tags
+
+  # Add the existing container registry ID
+  container_registry_id   = "/subscriptions/9c5d40b3-75aa-4bdf-b1aa-3f22cd0661c8/resourceGroups/JH-RIT-DSAI-AML-RG/providers/Microsoft.ContainerRegistry/registries/09fba36dd1cd423db79f4ef315c5d833"
 
   application_insights_id = module.app_insight_workspace.application_insights_id
   key_vault_id            = module.azure_kv.key_vault_id
@@ -137,5 +157,5 @@ module "azureml_workspace" {
     module.app_insight_workspace,
     module.azure_storage,
     module.azure_kv
-  ]
+  ] 
 }

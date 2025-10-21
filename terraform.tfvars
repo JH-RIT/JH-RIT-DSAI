@@ -3,6 +3,7 @@ subscription_id         = "9c5d40b3-75aa-4bdf-b1aa-3f22cd0661c8"
 resource_group_name     = "JH-RIT-DSAI-PROD-RG"      # Main RG for Additional Storage
 aml_resource_group_name = "JH-RIT-DSAI-AML-RG"       # AML resources
 oai_resource_group_name = "JH-RIT-DSAI-OAI-RG"       # OpenAI resources
+aif_resource_group_name = "JH-RIT-DSAI-AIF-RG"       # AI Foundry resources
 location               = "eastus"
 
 # OpenAI Configuration
@@ -40,5 +41,5 @@ user_AD_group_name = "JH-RIT-DSAI"
 
 # Tags
 tags = {
-    "JIRA"             = "RIT-2820"
-}
+    "Environment"      = "Prod"
+  }
