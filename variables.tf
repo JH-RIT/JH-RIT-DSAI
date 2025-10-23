@@ -91,20 +91,31 @@ variable "existing_key_vault_name" {
   description = "Name of existing Key Vault"
 }
 
-# Network configuration
+# Network configuration - East US
 variable "vnet_name" {
   type        = string
-  description = "Virtual Network name"
+  description = "Virtual Network name for East US"
 }
 
 variable "subnet_name" {
   type        = string
-  description = "Subnet name"
+  description = "Subnet name for East US"
+}
+
+# Network configuration - East US 2
+variable "vnet_name_east2" {
+  type        = string
+  description = "Virtual Network name for East US 2"
+}
+
+variable "subnet_name_east2" {
+  type        = string
+  description = "Subnet name for East US 2"
 }
 
 variable "network_resource_group_name" {
   type        = string
-  description = "Resource group containing the VNet"
+  description = "Resource group containing the VNets"
 }
 
 # AD Group
@@ -128,11 +139,21 @@ variable "aml_resource_group_name" {
 variable "oai_resource_group_name" {
   type        = string
   description = "Resource group name for OpenAI resources"
+  }
+
+variable "oai_resource_group_name_east2" {
+  type        = string
+  description = "Resource group name for OpenAI resources (East US 2)"
 }
 
 variable "aif_resource_group_name" {
   type        = string
-  description = "Resource group name for AI Foundry resources"
+  description = "Resource group name for AI Foundry resources (East US)"
+}
+
+variable "aif_resource_group_name_east2" {
+  type        = string
+  description = "Resource group name for AI Foundry resources (East US 2)"
 }
 
 # Additional Storage Account variables

@@ -15,7 +15,7 @@ output "openai_resource_id" {
   value       = module.openai.openai.id
 }
 
-# AI Foundry Outputs
+# AI Foundry East US Outputs (keep existing names - use module.ai_foundry)
 output "ai_foundry_id" {
   description = "AI Foundry Hub ID"
   value       = module.ai_foundry.resource_id
@@ -46,14 +46,45 @@ output "ai_foundry_app_insights_id" {
   value       = module.ai_foundry.application_insights_id
 }
 
-#AML Workspace Outputs
-  output "aml_workspace_id" {
- description = "Azure ML Workspace ID"
-value       = module.azureml_workspace.ml_workspace_id
+# AI Foundry East US 2 Outputs (new)
+output "ai_foundry_east2_id" {
+  description = "AI Foundry East2 Hub ID"
+  value       = module.ai_foundry_east2.resource_id
+}
+
+output "ai_foundry_east2_discovery_url" {
+  description = "AI Foundry East2 Hub discovery URL"
+  value       = module.ai_foundry_east2.discovery_url
+}
+
+output "ai_foundry_east2_workspace_id" {
+  description = "AI Foundry East2 Hub workspace ID"
+  value       = module.ai_foundry_east2.workspace_id
+}
+
+output "ai_foundry_east2_storage_id" {
+  description = "AI Foundry East2 Storage Account ID"
+  value       = module.ai_foundry_east2.storage_account_id
+}
+
+output "ai_foundry_east2_key_vault_id" {
+  description = "AI Foundry East2 Key Vault ID"
+  value       = module.ai_foundry_east2.key_vault_id
+}
+
+output "ai_foundry_east2_app_insights_id" {
+  description = "AI Foundry East2 Application Insights ID"
+  value       = module.ai_foundry_east2.application_insights_id
+}
+
+# AML Workspace Outputs
+output "aml_workspace_id" {
+  description = "Azure ML Workspace ID"
+  value       = module.azureml_workspace.ml_workspace_id
 }
 
 output "aml_workspace_name" {
- description = "Azure ML Workspace name"
+  description = "Azure ML Workspace name"
   value       = module.azureml_workspace.ml_workspace_name
 }
 
@@ -73,4 +104,21 @@ output "key_vault_id" {
 output "application_insights_id" {
   description = "Application Insights ID"
   value       = module.app_insight_workspace.application_insights_id
+}
+
+# Add these OpenAI East US 2 outputs
+output "openai_east2_endpoint" {
+  description = "OpenAI East2 service endpoint"
+  value       = module.openai_east2.openai.endpoint
+  sensitive   = true
+}
+
+output "openai_east2_name" {
+  description = "OpenAI East2 service name"
+  value       = module.openai_east2.openai.name
+}
+
+output "openai_east2_resource_id" {
+  description = "OpenAI East2 resource ID"
+  value       = module.openai_east2.openai.id
 }
