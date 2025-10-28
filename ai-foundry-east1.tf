@@ -1,5 +1,5 @@
 # AI Foundry Module (in East US - AIF RG) - KEEP ORIGINAL NAME
-module "ai_foundry" {  # NOT ai_foundry_east1
+module "ai_foundry" {  
   source = "git@github.com:JH-RIT/RIT-Azure.git//AIFoundry?ref=v0.0.21"
 
   ritjira                    = var.ritjira
