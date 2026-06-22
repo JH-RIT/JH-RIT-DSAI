@@ -1,7 +1,12 @@
+# Azure Machine Learning
+# Created by ptaft1 on 2026-06-22
+# Project Purpose: Deploy secure Azure AI and data infrastructure for JH-RIT-DSAI.
+# File Purpose: Defines AML workspace dependencies and workspace module.
+
 # App Insights Module (in AML RG)
 module "app_insight_workspace" {
   source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/app-insight?ref=v0.0.21"
-  
+
   jira_ticket                        = var.jira_ticket
   application_name                   = var.application_name
   environment                        = var.environment
@@ -15,7 +20,7 @@ module "app_insight_workspace" {
 # Azure Storage Module (in AML RG) - AML's built-in storage
 module "azure_storage" {
   source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-storage?ref=v0.0.21"
-  
+
   jira_ticket                   = var.jira_ticket
   application_name              = var.application_name
   environment                   = var.environment
@@ -31,7 +36,7 @@ module "azure_storage" {
 # Azure Key Vault Module (in AML RG)
 module "azure_kv" {
   source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azure-kv?ref=v0.0.21"
-  
+
   jira_ticket             = var.jira_ticket
   application_name        = var.application_name
   environment             = var.environment
@@ -47,9 +52,9 @@ module "azure_kv" {
 # Azure ML Workspace Module (in AML RG)
 module "azureml_workspace" {
   source = "git@github.com:JH-RIT/RIT-Azure.git//AZML-FullWorkSpace/azureml-workspace?ref=v0.0.21"
-  
+
   jira_ticket             = var.jira_ticket
-  application_name        = "dsai-aml"              # Hardcoded to match existing workspace
+  application_name        = "dsai-aml" # Hardcoded to match existing workspace
   environment             = var.environment
   location                = var.location
   resource_group_name     = var.aml_resource_group_name
@@ -59,7 +64,7 @@ module "azureml_workspace" {
   tags                    = var.tags
 
   # Add the existing container registry ID
-  container_registry_id   = "/subscriptions/9c5d40b3-75aa-4bdf-b1aa-3f22cd0661c8/resourceGroups/JH-RIT-DSAI-AML-RG/providers/Microsoft.ContainerRegistry/registries/09fba36dd1cd423db79f4ef315c5d833"
+  container_registry_id = "/subscriptions/9c5d40b3-75aa-4bdf-b1aa-3f22cd0661c8/resourceGroups/JH-RIT-DSAI-AML-RG/providers/Microsoft.ContainerRegistry/registries/09fba36dd1cd423db79f4ef315c5d833"
 
   application_insights_id = module.app_insight_workspace.application_insights_id
   key_vault_id            = module.azure_kv.key_vault_id
@@ -69,5 +74,5 @@ module "azureml_workspace" {
     module.app_insight_workspace,
     module.azure_storage,
     module.azure_kv
-  ] 
+  ]
 }

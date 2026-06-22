@@ -1,3 +1,8 @@
+# Variables
+# Created by ptaft1 on 2026-06-22
+# Project Purpose: Deploy secure Azure AI and data infrastructure for JH-RIT-DSAI.
+# File Purpose: Declares configurable infrastructure inputs.
+
 # Subscription and Resource Group
 variable "subscription_id" {
   type        = string
@@ -7,6 +12,11 @@ variable "subscription_id" {
 variable "resource_group_name" {
   type        = string
   description = "Resource group name"
+}
+
+variable "app_resource_group_name" {
+  type        = string
+  description = "Resource group name for application resources, including SQL production and staging storage accounts."
 }
 
 variable "location" {
@@ -119,11 +129,6 @@ variable "network_resource_group_name" {
 }
 
 # AD Group
-variable "user_AD_group_name" {
-  type        = string
-  description = "Azure AD group name for permissions"
-}
-
 # Tags
 variable "tags" {
   type        = map(string)
@@ -139,7 +144,7 @@ variable "aml_resource_group_name" {
 variable "oai_resource_group_name" {
   type        = string
   description = "Resource group name for OpenAI resources"
-  }
+}
 
 variable "oai_resource_group_name_east2" {
   type        = string
@@ -156,15 +161,74 @@ variable "aif_resource_group_name_east2" {
   description = "Resource group name for AI Foundry resources (East US 2)"
 }
 
-# Additional Storage Account variables
+# Existing Storage Account variables
 variable "additional_storage_hns" {
   type        = bool
   default     = false
-  description = "Enable hierarchical namespace for additional storage account"
+  description = "Enable hierarchical namespace for existing storage account."
 }
 
 variable "additional_storage_access_tier" {
   type        = string
   default     = "Hot"
-  description = "Access tier for additional storage account"
+  description = "Access tier for existing storage account."
+}
+
+# Slot Blob Data Store Storage Account variables
+variable "data_store_jira" {
+  type        = string
+  default     = "4525"
+  description = "JIRA ticket number for SQL production and staging data store storage account naming. Do not include the RIT prefix."
+
+  validation {
+    condition     = can(regex("^[0-9]+$", var.data_store_jira))
+    error_message = "The data store JIRA value must be numeric because the storage module prepends 'rit' during naming."
+  }
+}
+
+variable "sqlprod_storage_project" {
+  type        = string
+  default     = "dsaisqlprod"
+  description = "Project segment for the SQL production blob storage account name."
+}
+
+variable "sqlstage_storage_project" {
+  type        = string
+  default     = "dsaisqlstage"
+  description = "Project segment for the SQL staging blob storage account name."
+}
+
+variable "sqlprod_storage_hns" {
+  type        = bool
+  default     = false
+  description = "Enable hierarchical namespace for the SQL production blob storage account."
+}
+
+variable "sqlstage_storage_hns" {
+  type        = bool
+  default     = false
+  description = "Enable hierarchical namespace for the SQL staging blob storage account."
+}
+
+variable "sqlprod_storage_access_tier" {
+  type        = string
+  default     = "Hot"
+  description = "Access tier for the SQL production blob storage account."
+}
+
+variable "sqlstage_storage_access_tier" {
+  type        = string
+  default     = "Hot"
+  description = "Access tier for the SQL staging blob storage account."
+}
+
+variable "blob_retention_days" {
+  type        = number
+  default     = 7
+  description = "Number of days to retain blobs in SQL production and staging storage accounts before automatic deletion."
+
+  validation {
+    condition     = var.blob_retention_days >= 1 && var.blob_retention_days <= 365
+    error_message = "Blob retention days must be between 1 and 365."
+  }
 }
