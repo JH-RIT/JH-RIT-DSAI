@@ -1,3 +1,8 @@
+# Outputs
+# Created by ptaft1 on 2026-06-22
+# Project Purpose: Deploy secure Azure AI and data infrastructure for JH-RIT-DSAI.
+# File Purpose: Exposes deployed resource identifiers.
+
 # OpenAI Outputs
 output "openai_endpoint" {
   description = "OpenAI service endpoint"
@@ -121,4 +126,30 @@ output "openai_east2_name" {
 output "openai_east2_resource_id" {
   description = "OpenAI East2 resource ID"
   value       = module.openai_east2.openai.id
+}
+
+# Slot Blob Data Store Outputs
+output "sqlstage_storage_account_name" {
+  description = "Storage account name for SQL staging slot test data"
+  value       = local.sqlstage_storage_account_name
+}
+
+output "sqlstage_storage_account_id" {
+  description = "Resource ID for the SQL staging slot blob storage account"
+  value       = azurerm_storage_account.sqlstage.id
+}
+
+output "sqlprod_storage_account_name" {
+  description = "Storage account name for SQL production slot data"
+  value       = local.sqlprod_storage_account_name
+}
+
+output "sqlprod_storage_account_id" {
+  description = "Resource ID for the SQL production slot blob storage account"
+  value       = azurerm_storage_account.sqlprod.id
+}
+
+output "blob_store_retention_days" {
+  description = "Lifecycle retention period applied to SQL staging and production storage accounts"
+  value       = var.blob_retention_days
 }
