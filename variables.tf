@@ -128,13 +128,6 @@ variable "network_resource_group_name" {
   description = "Resource group containing the VNets"
 }
 
-# AD Group
-# Tags
-variable "tags" {
-  type        = map(string)
-  description = "Resource tags"
-}
-
 # Resource Groups
 variable "aml_resource_group_name" {
   type        = string

@@ -6,12 +6,12 @@
 locals {
   sqlprod_storage_account_name  = lower("rit${var.data_store_jira}${var.sqlprod_storage_project}")
   sqlstage_storage_account_name = lower("rit${var.data_store_jira}${var.sqlstage_storage_project}")
-  data_store_tags               = merge(var.tags, { JIRA = "RIT-${var.data_store_jira}" })
+  data_store_tags               = data.azurerm_resource_group.app.tags
 }
 
 # Existing production storage account. Keep this module managed so Terraform does not destroy rit2820dsaiprodst.
 module "additional_storage" {
-  source = "git@github.com:JH-RIT/RIT-Azure.git//StorageAccount?ref=v0.0.21"
+  source = "git::https://github.com/JH-RIT/RIT-Azure.git//StorageAccount?ref=v2.0.1"
 
   ritjira                   = var.ritjira
   project                   = var.project
@@ -20,7 +20,13 @@ module "additional_storage" {
   st_virtual_network_subnet = data.azurerm_subnet.subnet.id
   hns                       = var.additional_storage_hns
   access_tier               = var.additional_storage_access_tier
-  tags                      = var.tags
+  tags                      = data.azurerm_resource_group.production.tags
+  private_dns_zone_ids_blob = ["${local.central_private_dns_zone_base_id}/privatelink.blob.core.windows.net"]
+  private_dns_zone_ids_dfs  = ["${local.central_private_dns_zone_base_id}/privatelink.dfs.core.windows.net"]
+  enable_blob_cors_rules    = true
+  blob_cors_rules           = local.azure_portal_blob_cors_rules
+  enable_share_cors_rules   = true
+  share_cors_rules          = local.azure_portal_share_cors_rules
 }
 
 # Production SQL blob store.
@@ -108,6 +114,11 @@ resource "azurerm_private_endpoint" "sqlprod_blob" {
     subresource_names              = ["blob"]
     is_manual_connection           = false
   }
+
+  private_dns_zone_group {
+    name                 = "default"
+    private_dns_zone_ids = ["${local.central_private_dns_zone_base_id}/privatelink.blob.core.windows.net"]
+  }
 }
 
 resource "azurerm_private_endpoint" "sqlstage_blob" {
@@ -122,6 +133,11 @@ resource "azurerm_private_endpoint" "sqlstage_blob" {
     private_connection_resource_id = azurerm_storage_account.sqlstage.id
     subresource_names              = ["blob"]
     is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                 = "default"
+    private_dns_zone_ids = ["${local.central_private_dns_zone_base_id}/privatelink.blob.core.windows.net"]
   }
 }
 

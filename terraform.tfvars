@@ -59,13 +59,3 @@ subnet_name_east2 = "10.209.89.0-25"
 
 network_resource_group_name = "INFRASTRUCTURE-SVI-USE-ONLY-RG"
 
-# Tags
-tags = {
-  "Owner"            = "nandrew9"
-  "Environment"      = "Prod"
-  "Project"          = "JH-RIT-DSAI"
-  "IRB"              = "N/A"
-  "Data Sensitivity" = "No PHI"
-  "PI"               = "nandrew9"
-  "JIRA"             = "RIT-2820"
-}

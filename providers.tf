@@ -19,6 +19,11 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">=3.0"
     }
+
+    azapi = {
+      source  = "azure/azapi"
+      version = ">= 1.13"
+    }
   }
 }
 
@@ -26,4 +31,8 @@ provider "azurerm" {
   features {}
   subscription_id                 = var.subscription_id
   resource_provider_registrations = "none"
+}
+
+provider "azapi" {
+  subscription_id = var.subscription_id
 }
