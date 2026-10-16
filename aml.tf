@@ -107,7 +107,7 @@ resource "azapi_resource" "workspaceblobstore" {
         credentialsType = "None"
       }
 
-      serviceDataAccessAuthIdentity = "WorkspaceSystemAssignedIdentity"
+      serviceDataAccessAuthIdentity = "None"
     }
   }
 
